@@ -2,20 +2,26 @@ package session
 
 import (
 	"database/sql"
+	"my_orm/dialect"
 	"my_orm/log"
+	"my_orm/schema"
 	"strings"
 )
 
 // 数据库会话结构体
 type Session struct {
 	db      *sql.DB         // 数据库连接
+	dialect dialect.Dialect //数据库方言
+	refTble *schema.Schema  //模式
 	sql     strings.Builder // sql语句
 	sqlVars []interface{}   //sql 参数
 }
 
 // 根据连接来创建会话
-func NewSession(db *sql.DB) *Session {
-	return &Session{db: db}
+func NewSession(db *sql.DB, dialect dialect.Dialect) *Session {
+	return &Session{
+		db:      db,
+		dialect: dialect}
 }
 
 // 清空会话的sql
