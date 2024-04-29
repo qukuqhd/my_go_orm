@@ -3,7 +3,8 @@ module my_orm
 go 1.22.2
 
 require github.com/gohugoio/hugo v0.125.4
-
+require orm_log v0.0
+replace orm_log => ./log
 require (
 	github.com/BurntSushi/locker v0.0.0-20171006230638-a6e239ea1c69 // indirect
 	github.com/alecthomas/chroma/v2 v2.13.0 // indirect
