@@ -30,10 +30,11 @@ func (s *Session) DB() *sql.DB {
 }
 
 // 设置会话的sql
-func (s *Session) Raw(sql string, values ...interface{}) {
+func (s *Session) Raw(sql string, values ...interface{}) *Session {
 	s.sql.WriteString(sql)                   //添加sql
 	s.sql.WriteString(" ")                   //添加空格，保证sql语句可以正确地被三百执行
 	s.sqlVars = append(s.sqlVars, values...) //添加sql语句参数到切片末尾
+	return s
 }
 
 // 执行数据库会话的sql
