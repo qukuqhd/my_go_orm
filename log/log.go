@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-// 不同的日志分级定义
+// 不同的级别的日志打印
 var (
 	errorLog = log.New(os.Stdout, "\033[31m[error]\033[0m ", log.LstdFlags|log.Lshortfile) //错误级别 红色的字符串
 	infoLog  = log.New(os.Stdout, "\033[34m[info ]\033[0m ", log.LstdFlags|log.Lshortfile) //普通信息 蓝色的字符串
