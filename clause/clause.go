@@ -29,6 +29,7 @@ func (c *Clause) Set(name ClauseType, vars ...interface{}) {
 	c.sqlVar[name] = vars
 }
 
+//构造sql语句
 func (c *Clause) Build(orders ...ClauseType) (string, []interface{}) {
 	var sqls []string
 	var sqlvars []interface{}
