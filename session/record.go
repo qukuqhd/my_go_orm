@@ -88,3 +88,22 @@ func (s *Session) Count() (int64, error) {
 	}
 	return tmp, nil
 }
+
+// 添加分页
+func (s *Session) Limit(num int) *Session {
+	s.clause.Set(clause.LIMIT, num)
+	return s
+}
+
+// 添加条件查询
+func (s *Session) Where(desc string, args ...interface{}) *Session {
+	var vars []interface{}
+	s.clause.Set(clause.WHERE, append(append(vars, desc), args...))
+	return s
+}
+
+// 添加分组
+func (s *Session) OrderBy(desc string) *Session {
+	s.clause.Set(clause.ORDERBY, desc)
+	return s
+}
