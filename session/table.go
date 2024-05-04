@@ -1,6 +1,7 @@
 package session
 
 import (
+	"errors"
 	"fmt"
 	"my_orm/log"
 	"my_orm/schema"
@@ -47,4 +48,18 @@ func (s *Session) HasTable() bool {
 	var tmp string
 	row.Scan(tmp)
 	return tmp == s.RefTable().Name
+}
+
+// 获取查询的第一条记录
+func (s *Session) First(val interface{}) error {
+	dest := reflect.Indirect(reflect.ValueOf(val))
+	des_slice := reflect.New(reflect.SliceOf(dest.Type())).Elem()
+	if err := s.Limit(1).Find(des_slice.Addr().Interface()); err != nil {
+		return err
+	}
+	if des_slice.Len() == 0 {
+		return errors.New("NOT FOUND")
+	}
+	des_slice.Set(des_slice.Index(0))
+	return nil
 }
