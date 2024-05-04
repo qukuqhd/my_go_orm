@@ -56,3 +56,13 @@ func Parse(model interface{}, dialect dialect.Dialect) *Schema {
 	}
 	return schema
 }
+
+// 转换对应为sql语句生成需要的参数
+func (schema *Schema) RecordValues(dest interface{}) []interface{} {
+	destValue := reflect.Indirect(reflect.ValueOf(dest))
+	var filedVals []interface{}
+	for _, fied := range schema.Fields { //查找传入对象匹配的属性
+		filedVals = append(filedVals, destValue.FieldByName(fied.Name).Interface())
+	}
+	return filedVals
+}

@@ -2,6 +2,7 @@ package session
 
 import (
 	"database/sql"
+	"my_orm/clause"
 	"my_orm/dialect"
 	"my_orm/log"
 	"my_orm/schema"
@@ -15,6 +16,7 @@ type Session struct {
 	refTble *schema.Schema  //模式
 	sql     strings.Builder // sql语句
 	sqlVars []interface{}   //sql 参数
+	clause  clause.Clause   //sq语句生成器
 }
 
 // 根据连接来创建会话
@@ -28,6 +30,7 @@ func NewSession(db *sql.DB, dialect dialect.Dialect) *Session {
 func (s *Session) Clear() {
 	s.sql.Reset()
 	s.sqlVars = nil
+	s.clause = clause.Clause{}
 }
 
 // 获取会话的数据库连接
