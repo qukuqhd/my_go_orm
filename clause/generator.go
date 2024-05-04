@@ -18,6 +18,9 @@ func init() {
 	generateors[LIMIT] = _limit
 	generateors[WHERE] = _where
 	generateors[ORDERBY] = _orderBy
+	generateors[UPDATE] = _update
+	generateors[DELETE] = _delete
+	generateors[COUNT] = _count
 }
 
 // 按照需要的位数生成相应个占位
@@ -77,4 +80,27 @@ func _where(vals ...interface{}) (string, []interface{}) {
 // 生成orderby的子句
 func _orderBy(vals ...interface{}) (string, []interface{}) {
 	return fmt.Sprintf("ORDER BY %s", vals[0]), []interface{}{}
+}
+
+// 生成update的子句
+func _update(vals ...interface{}) (string, []interface{}) {
+	tableName := vals[0]
+	m := vals[1].(map[string]interface{})
+	var keys []string
+	var vars []interface{}
+	for k, v := range m {
+		keys = append(keys, k)
+		vars = append(vars, v)
+	}
+	return fmt.Sprintf("UPDATE %s SET %s ", tableName, strings.Join(keys, ",")), vars
+}
+
+// 生成delete的子句
+func _delete(vals ...interface{}) (string, []interface{}) {
+	return fmt.Sprintf("DELETE FROM %s ", vals[0]), []interface{}{}
+}
+
+// 生成count的子句
+func _count(vals ...interface{}) (string, []interface{}) {
+	return _select(vals[0], []string{"count(*)"})
 }
